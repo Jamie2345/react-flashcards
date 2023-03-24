@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import FlashcardList from "./FlashcardList";
-import "./app.css";
+import FlashcardList from "./components/flashcards/FlashcardList";
+import Navbar from "./components/navbar/Navbar";
+
+import "./styles/flashcards.css";
+import "./styles/navbar.css";
 import axios from "axios";
 
 function App() {
@@ -23,7 +26,10 @@ function App() {
     loading ? (
       <p>Loading...</p>
     ) : (
-      <FlashcardList flashcards={flashcards} />
+      <>
+        <Navbar></Navbar>
+        <FlashcardList flashcards={flashcards} />
+      </>
     )
   );
 }
