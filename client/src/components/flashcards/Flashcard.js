@@ -12,8 +12,6 @@ export default function Flashcard ( {flashcard, active, slide, z} ) {
     cardClass = active ? 'active' : 'hidden'
   }
 
-  console.log(cardClass)
-
   return (
     <div 
       className={`card ${cardClass} ${flip ? 'flip' : ''}`} 

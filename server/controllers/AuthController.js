@@ -36,6 +36,7 @@ const register = (req, res, next) => {
       .then(user => {
   
         if (user) {
+          res.status(409)
           res.json({
             message: 'Username Taken'
           })
@@ -46,6 +47,7 @@ const register = (req, res, next) => {
           .then(user => {
   
             if (user && req.body.email) {
+              res.status(409)
               res.json({
                 message: req.body.email + ' Is already registered'
               })
@@ -102,7 +104,9 @@ const login = (req, res, next) => {
         
           res.cookie("token", token)
           res.json({
-            msg: 'logged in successfully'
+            username: user.username,
+            id: user._id,
+            accessToken: token
           })
         }
         

@@ -10,13 +10,11 @@ export default function FlashcardList({ flashcards }) {
     let nextQueue = [...queue];
     const currentCard = nextQueue.shift();
 
-    console.log(currentCard);
-
     nextQueue.push(currentCard);
     setQueue(nextQueue);
     setPrev(currentCard);
   };
-  console.log(prev)
+
   return (
     <>
       <div className="cards-container">
