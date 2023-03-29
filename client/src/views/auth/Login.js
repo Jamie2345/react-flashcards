@@ -29,7 +29,7 @@ export default function LoginPage() {
           withCredentials: true
         }
       );
-      
+      console.log(response.data);
       setAuth( response.data );
       navigate(from, { replace: true });
     }

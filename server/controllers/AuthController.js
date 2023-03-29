@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const register = (req, res, next) => {
-  console.log(req.body)
 
   bcrypt.hash(req.body.password, 10, function(err, hashedPass) {
     if (err) {
@@ -85,6 +84,8 @@ const register = (req, res, next) => {
 }
 
 const login = (req, res, next) => {
+  const cookies = req.cookies;
+
   var identifier = req.body.identifier
   var password = req.body.password
 
@@ -100,20 +101,48 @@ const login = (req, res, next) => {
         }
 
         if (result) {
-          let token = jwt.sign({name: user.username, _id: user._id}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1h'})
-        
-          res.cookie("token", token)
+          const accessToken = jwt.sign(
+            {
+              UserInfo: {
+                username: user.username, 
+                id: user._id
+              }
+            }, 
+            process.env.ACCESS_TOKEN_SECRET, 
+            {expiresIn: '8h'}
+          );
+            
+          const newRefreshToken = jwt.sign(
+            { username: user.username },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: '1d' }
+          );
+
+          const newRefreshTokenArray = 
+            !cookies?.jwt
+                ? user.refreshToken
+                : user.refreshToken.filter(rt => rt !== cookies.jwt);
+          
+          if (cookies?.jwt) res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+
+          user.refreshToken = [...newRefreshTokenArray, newRefreshToken];
+          user.save();
+
+          res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+
           res.json({
             username: user.username,
-            id: user._id,
-            accessToken: token
-          })
+            accessToken: accessToken
+          });
+
         }
         
         else {
+
           res.json({
             message: 'Passwords do not match'
-          })
+          });
+          
         }
       })
     }

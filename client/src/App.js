@@ -23,6 +23,7 @@ function App() {
           <Route path="flashcards" element={<FlashcardPage />} />
         </Route>
 
+        
         {/* catch all */}
         <Route path="*" element={<Missing />} />
       </Route>

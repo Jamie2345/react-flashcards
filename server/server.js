@@ -1,21 +1,28 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const app = express()
 
 const dotenv = require('dotenv')
 dotenv.config()
 
+app.use(cookieParser())
+
 mongoose.connect(process.env.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+
+const authenticate = require('./middleware/authenticate')
+
+const AuthRoute = require('./routes/auth')
+const CardsRoute = require('./routes/cards')
+
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 const db = mongoose.connection
 db.on('error', error => console.log(error))
 db.once('open', () => console.log('Connected to mongoose database'))
 
-const AuthRoute = require('./routes/auth')
-
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
 
 const SAMPLE_FLASHCARDS = [
   {"id": 1, "question": "What does 'por lo tanto' mean?", "answer": "Therefore"},  
@@ -51,6 +58,7 @@ const SAMPLE_FLASHCARDS = [
 ]
 
 app.get('/api/flashcards', (req, res) => {
+  console.log(req.headers)
   res.json(SAMPLE_FLASHCARDS)
 })
 
@@ -59,3 +67,4 @@ app.listen(process.env.PORT, () => {
 })
 
 app.use('/api', AuthRoute)
+app.use('/api', authenticate, CardsRoute)
