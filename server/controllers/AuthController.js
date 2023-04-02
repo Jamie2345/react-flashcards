@@ -1,4 +1,7 @@
 const User = require('../models/User')
+
+const Pending = require('../models/Pending')
+
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -10,7 +13,7 @@ const register = (req, res, next) => {
         error: err
       })
     }
-
+    console.log(req.body)
     // check password strength regex
     let strongPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
 
@@ -54,11 +57,16 @@ const register = (req, res, next) => {
 
             // create user if all previous tests pass
             else {
-  
+
               let user = new User ({
                 username: req.body.username,
                 email: req.body.email,
                 password: hashedPass,
+                friends: [],
+                pendingFriends: {
+                  incoming: [],
+                  outgoing: [],
+                }
               })
               user.save()
               .then(user => {
@@ -109,7 +117,7 @@ const login = (req, res, next) => {
               }
             }, 
             process.env.ACCESS_TOKEN_SECRET, 
-            {expiresIn: '8h'}
+            {expiresIn: '10h'}
           );
             
           const newRefreshToken = jwt.sign(

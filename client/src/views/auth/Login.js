@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import "../../styles/authpages.css";
 
@@ -12,7 +12,7 @@ export default function LoginPage() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/flashcards";
 
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
@@ -46,6 +46,8 @@ export default function LoginPage() {
       else {
         setErrMsg('Login Failed')
       }
+
+      console.log(errMsg)
     }
 
 

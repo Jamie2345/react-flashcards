@@ -42,7 +42,7 @@ const add = (req, res, next) => {
 
   Deck.findOneAndUpdate(
     {name: body.deckName, creator: req.userInfo.username},
-    { $push: { 'cards': req.body.card } },
+    { $push: { 'cards': req.body.card } }, // new Card() may work
     { new: true }
   )
   .then(updatedDeck => {
@@ -99,7 +99,7 @@ const edit = (req, res, next) => {
 const remove = (req, res, next) => {
   const { deckName, cardIndex } = req.body;
 
-  const deck = Deck.findOne({ name: deckName, creator: req.userInfo.username })
+  Deck.findOne({ name: deckName, creator: req.userInfo.username })
   .then(deck => {
     deck.cards.splice(cardIndex, 1);
     deck.save()
@@ -117,12 +117,56 @@ const remove = (req, res, next) => {
   })
 }
 
+const decks = (req, res, next) => {
+  Deck.find({ creator: req.userInfo.username })
+  .then(decks => {
+    return res.json(decks);
+  })
+  .catch(err => {
+    res.json({
+      message: 'error getting decks please try again'
+    })
+  });
+}
+
+const flashcards = (req, res, next) => {
+  console.log('flashcards')
+  console.log(req.headers)
+  const deckId = req.query.deck
+  
+  Deck.findById(deckId)
+  .then(foundDeck => {
+    if (foundDeck) {
+      res.json(foundDeck);
+    }
+    else {
+      res.sendStatus(404)
+    }
+  })
+  .catch(err => {
+    if (err.name === 'CastError') { // check if deckId is invalid
+      res.sendStatus(404)
+    } else {
+      res.status(500)
+      res.json({
+        message: 'error getting deck'
+      })
+    }
+  })
+}
+
+
 
 
 
 module.exports = {
+  // creating decks and flashcards and editing and deleting cards
   create,
   add,
   edit,
-  remove
+  remove,
+
+  // getting decks and flashcards
+  decks,
+  flashcards
 }

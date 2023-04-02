@@ -1,6 +1,7 @@
 import LoginPage from './views/auth/Login';
 import RegisterPage from './views/auth/Register';
 import FlashcardPage from './views/FlashcardPage';
+import HomePage from './views/HomePage';
 import Unauthorized from './views/errorpages/Unauthorized';
 import Missing from './views/errorpages/Missing';
 
@@ -14,14 +15,17 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* public routes */}
+        <Route path="/" element={<HomePage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path="unauthorized" element={<Unauthorized />} />
 
         {/* authenticated routes */}
+
         <Route element={<RequireAuth />}>
           <Route path="flashcards" element={<FlashcardPage />} />
         </Route>
+
 
         
         {/* catch all */}

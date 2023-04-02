@@ -19,7 +19,7 @@ export default function FlashcardList({ flashcards }) {
     <>
       <div className="cards-container">
         {queue.map((flashcard, i) => {
-          return <Flashcard flashcard={flashcard} active={i === 0} slide={flashcard===prev} z={queue.length - i} key={flashcard.id + new Date()} />
+          return <Flashcard flashcard={flashcard} active={i === 0} slide={flashcard===prev} z={queue.length - i} key={flashcard._id + new Date()} />
         })}
       </div>
       <button onClick={() => handleNextClick()}>Next Card</button>

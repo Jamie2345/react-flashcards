@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const pendingSchema = require('./Pending');
+const friendSchema = require('./Friends');
+
 const userSchema = new Schema({
   username: {
     type: String,
@@ -13,6 +16,12 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
+  },
+  friends: {
+    type: [friendSchema],
+  },
+  pendingFriends: {
+    type: pendingSchema,
   },
   refreshToken: [String]
 
