@@ -1,6 +1,5 @@
 const Deck = require('../models/Deck');
 
-// get chat gpt to find a way to save repetition of jwt verify
 const create = (req, res, next) => {
   const body = req.body;
 

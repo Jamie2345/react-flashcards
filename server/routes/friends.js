@@ -3,6 +3,7 @@ const router = express.Router()
 
 const FriendController = require('../controllers/FriendController')
 
-router.post('/request', FriendController.request)
+router.put('/request', FriendController.request)
+router.put('/accept', FriendController.accept)
 
 module.exports = router
