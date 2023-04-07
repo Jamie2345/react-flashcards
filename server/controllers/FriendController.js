@@ -1,30 +1,7 @@
 const User = require('../models/User');
 
-// function to check if the user accepting is already a friend
-function inFriends(currentUser, userToAccept) {
-  for (i=0; i < currentUser.friends.length; i++) {
-    let friend = currentUser.friends[i];
-    if (friend.name === userToAccept) {
-      return true;
-    }
-  }
-  return false
-}
 
 const request = (req, res, next) => {
-  
-  function alreadyRequested(currentUser, userToRequest) {
-    
-    // check if the user friend request is already pending
-    for (i=0; i<currentUser.pendingFriends.outgoing.length; i++) {
-      let pending = currentUser.pendingFriends.outgoing[i];
-      
-      if (pending.name === userToRequest) {
-        return true;
-      }
-    }
-    return false;
-  }
   
   const { userToRequest } = req.body;
 
@@ -36,13 +13,14 @@ const request = (req, res, next) => {
       return;
     }
 
-    if (inFriends(currentUser, userToRequest)) {
+    // if already friends with this user
+    if (currentUser.friends.some(friend => friend.name === userToRequest)) {
       res.status(409).json({ message: 'This user is already your friend' });
       return;
     }
 
     // check if user is already requesting
-    if (alreadyRequested(currentUser, userToRequest)) {
+    if (currentUser.pendingFriends.outgoing.some(pending => pending.name === userToRequest)) {
       res.status(409).json({ message: `You have already requested to friend ${userToRequest}` });
       return;
     }
@@ -92,19 +70,6 @@ const request = (req, res, next) => {
 
 const accept = (req, res, next) => {
   
-  // function to check if there is an incoming friend request from the person to accept one from
-  function inIncoming(currentUser, userToAccept) {
-    const incomingFriends = currentUser.pendingFriends.incoming;
-    console.log(incomingFriends)
-    for (i=0; i < incomingFriends.length; i++) {
-      let incomingFriend = incomingFriends[i];
-      if (incomingFriend.name === userToAccept) {
-        return true;
-      }
-    }
-    return false
-  }
-
   const { acceptUser } = req.body;
 
   User.findById(req.userInfo.id) // req.userInfo.id is the id of the user making the request (.userInfo is created in a middleware function)
@@ -117,12 +82,14 @@ const accept = (req, res, next) => {
       return;
     }
 
-    if (inFriends(currentUser, acceptUser)) {
+    // if already friends
+    if (currentUser.friends.some(friend => friend.name === acceptUser)) {
       res.status(409).json({ message: 'This user is already your friend' });
       return;
     }
 
-    if (!inIncoming(currentUser, acceptUser)) {
+    // if the user hasn't sent a friend request
+    if (!(currentUser.pendingFriends.incoming.some(incomingFriend => incomingFriend.name === acceptUser))) {
       res.status(404).json({ message: 'This user has not sent you a friend request' });
       return;
     }
