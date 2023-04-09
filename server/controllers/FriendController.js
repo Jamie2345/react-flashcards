@@ -263,15 +263,26 @@ const unrequest = (req, res, next) => {
   });
 }
 
+const friends = (req, res, next) => {
+  User.findById(req.userInfo.id)
+  .then(user => {
+    if (!user) {
+      res.status(404).json({ message: 'Invalid user ID' });
+      return;
+    }
+    res.json(user.friends)
+  })
+}
+
 module.exports = {
   // creating decks and flashcards and editing and deleting cards
   request,
   accept,
 
   unfriend,
-  unrequest
+  unrequest,
 
-
+  friends
   // request TYPE = PUT
   // accept TYPE = PUT
 
