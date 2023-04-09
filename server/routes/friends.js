@@ -10,5 +10,7 @@ router.delete('/unfriend', FriendController.unfriend)
 router.delete('/unrequest', FriendController.unrequest)
 
 router.get('/friends', FriendController.friends)
+router.get('/incoming', FriendController.incoming)
+router.get('/outgoing', FriendController.outgoing)
 
 module.exports = router

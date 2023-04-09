@@ -1,7 +1,5 @@
 const User = require('../models/User')
 
-const Pending = require('../models/Pending')
-
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 

@@ -274,6 +274,28 @@ const friends = (req, res, next) => {
   })
 }
 
+const incoming = (req, res, next) => {
+  User.findById(req.userInfo.id)
+  .then(user => {
+    if (!user) {
+      res.status(404).json({ message: 'Invalid user ID' });
+      return;
+    }
+    res.json(user.pendingFriends.incoming)
+  })
+}
+
+const outgoing = (req, res, next) => {
+  User.findById(req.userInfo.id)
+  .then(user => {
+    if (!user) {
+      res.status(404).json({ message: 'Invalid user ID' });
+      return;
+    }
+    res.json(user.pendingFriends.outgoing)
+  })
+}
+
 module.exports = {
   // creating decks and flashcards and editing and deleting cards
   request,
@@ -282,7 +304,10 @@ module.exports = {
   unfriend,
   unrequest,
 
-  friends
+  friends,
+  incoming,
+  outgoing
+
   // request TYPE = PUT
   // accept TYPE = PUT
 
