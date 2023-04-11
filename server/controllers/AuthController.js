@@ -5,6 +5,11 @@ const jwt = require('jsonwebtoken')
 
 const register = (req, res, next) => {
 
+  if (!req.body.username || !req.body.email || !req.body.password) {
+    res.status(400).json({ message: 'Invalid user credentials' });
+    return;
+  }
+
   bcrypt.hash(req.body.password, 10, function(err, hashedPass) {
     if (err) {
       res.json({
@@ -95,6 +100,11 @@ const login = (req, res, next) => {
   var identifier = req.body.identifier
   var password = req.body.password
 
+  if (!identifier || !password) {
+    res.status(400).json({ message: 'Invalid user credentials' });
+    return;
+  }
+
   User.findOne({$or: [{username:identifier}, {email:identifier}]})
   .then(user => {
     if (user) {
@@ -144,7 +154,8 @@ const login = (req, res, next) => {
         }
         
         else {
-
+          
+          res.status(401)
           res.json({
             message: 'Passwords do not match'
           });
@@ -153,9 +164,12 @@ const login = (req, res, next) => {
       })
     }
     else {
+
+      res.status(404)
       res.json({
         message: 'User not found'
       })
+      
     }
   })
 }
