@@ -5,7 +5,6 @@ import useAuth from "../hooks/useAuth";
 import FlashcardList from "../components/flashcards/FlashcardList";
 import Navbar from "../components/navbar/Navbar";
 import "../styles/flashcards.css";
-import "../styles/navbar.css";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
