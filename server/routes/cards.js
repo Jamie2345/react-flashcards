@@ -5,9 +5,11 @@ const FlashcardsConroller = require('../controllers/FlashcardsController')
 
 // manage flashcards and decks
 router.post('/create', FlashcardsConroller.create)
-router.post('/add', FlashcardsConroller.add)
-router.post('/edit', FlashcardsConroller.edit)
-router.post('/remove', FlashcardsConroller.remove)
+
+router.put('/add', FlashcardsConroller.add)
+router.put('/edit', FlashcardsConroller.edit)
+
+router.delete('/remove', FlashcardsConroller.remove)
 
 // get flashcards and decks
 router.get('/decks', FlashcardsConroller.decks)
