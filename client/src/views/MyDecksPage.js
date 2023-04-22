@@ -1,39 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom'
-
 import useAuth from "../hooks/useAuth";
 
-import FlashcardList from "../components/flashcards/FlashcardList";
 import Navbar from "../components/navbar/Navbar";
 import "../styles/flashcards.css";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-const useQuery = () => new URLSearchParams(useLocation().search);
-
-export default function FlashcardPage() {
+export default function MyDecksPage() {
   const axiosPrivate = useAxiosPrivate();
 
   const { auth } = useAuth();
-  //console.log(`auth: ${JSON.stringify(auth)}`);
 
-  const query = useQuery();
-  const deck = query.get('deck');
-
-  console.log(deck)
- 
-  const [flashcards, setFlashcards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errMsg, setErrMsg] = useState(null);
   const [attemptCount, setAttemptCount] = useState(0)
   
   useEffect(() => {
     if (auth) {
-      axiosPrivate.get(`/api/flashcards?deck=${deck}`)
+      axiosPrivate.get(`/api/decks`)
         .then(res => {
-          const cards = res.data.cards;
-          setFlashcards(cards);
-          setLoading(false);
+          console.log(res.data)
+          setLoading(false)
           setAttemptCount(0)
         })
         .catch(error => {
@@ -75,7 +62,6 @@ export default function FlashcardPage() {
       ) : (
         <>
           <Navbar username={auth.username} />
-          <FlashcardList flashcards={flashcards} />
         </>
       )}
     </>
