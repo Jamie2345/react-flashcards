@@ -16,6 +16,7 @@ const authenticate = require('./middleware/authenticate')
 const AuthRoute = require('./routes/auth')
 const CardsRoute = require('./routes/cards')
 const FriendsRoute = require('./routes/friends')
+const SearchRoute = require('./routes/search')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -65,6 +66,7 @@ app.listen(process.env.PORT, () => {
   console.log(`listening on port ${process.env.PORT}`)
 })
 
+app.use('/api', SearchRoute)
 app.use('/api', AuthRoute)
 app.use('/api', authenticate, CardsRoute)
 app.use('/api', authenticate, FriendsRoute)
