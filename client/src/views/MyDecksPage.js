@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 
 import Navbar from "../components/navbar/Navbar";
+import Gallery from "../components/decks/Gallery";
 import "../styles/flashcards.css";
+import "../styles/deckspage.css";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
@@ -13,13 +15,16 @@ export default function MyDecksPage() {
 
   const [loading, setLoading] = useState(true);
   const [errMsg, setErrMsg] = useState(null);
+  const [decks, setDecks] = useState([]);
   const [attemptCount, setAttemptCount] = useState(0)
   
   useEffect(() => {
     if (auth) {
       axiosPrivate.get(`/api/decks`)
         .then(res => {
-          console.log(res.data)
+          const decks = res.data
+          console.log(decks)
+          setDecks(decks)
           setLoading(false)
           setAttemptCount(0)
         })
@@ -52,6 +57,8 @@ export default function MyDecksPage() {
         });
     }
   }, [auth, attemptCount, axiosPrivate]);
+  
+  console.log(decks)
 
   return (
     <>
@@ -62,6 +69,11 @@ export default function MyDecksPage() {
       ) : (
         <>
           <Navbar username={auth.username} />
+          <div className="main-deckpage-container">
+            <div className="gallery-container">
+              <Gallery decks={decks}/>
+            </div>
+          </div>
         </>
       )}
     </>

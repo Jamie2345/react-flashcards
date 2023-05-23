@@ -74,8 +74,10 @@ export default function FlashcardPage() {
         <p>{errMsg}</p>
       ) : (
         <>
-          <Navbar username={auth.username} />
-          <FlashcardList flashcards={flashcards} />
+          <div class="main-flashcards-container">
+            <Navbar username={auth.username} />
+            <FlashcardList flashcards={flashcards} />
+          </div>
         </>
       )}
     </>

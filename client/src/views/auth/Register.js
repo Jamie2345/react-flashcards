@@ -97,70 +97,72 @@ export default function RegisterPage() {
   }, [pwd, pwdMatch])
 
   return (
-    <div class="container">
-      <div class="title">Registration</div>
-      <div class="content">
-        <form id="sign-up-form" type="POST" action="/api/register" onSubmit={handleSubmit}>
-          <div class="user-details">
-            <div class="input-box">
-              <span class="details">Username</span>
-              <input 
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                id="username" 
-                name="username" 
-                type="text" 
-                placeholder="Enter your username" 
-                autocomplete="off" 
-                required
-              />
+    <div class="main-auth-container">
+      <div class="container">
+        <div class="title">Registration</div>
+        <div class="content">
+          <form id="sign-up-form" type="POST" action="/api/register" onSubmit={handleSubmit}>
+            <div class="user-details">
+              <div class="input-box">
+                <span class="details">Username</span>
+                <input 
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  id="username" 
+                  name="username" 
+                  type="text" 
+                  placeholder="Enter your username" 
+                  autocomplete="off" 
+                  required
+                />
+              </div>
+              <div class="input-box">
+                <span class="details">Email</span>
+                <input 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  id="email" 
+                  name="email" 
+                  type="email" 
+                  placeholder="Enter your email" 
+                  autocomplete="off" 
+                  required
+                />
+              </div>
+              <div class="input-box">
+                <span class="details">Password</span>
+                <input 
+                  value={pwd}
+                  onChange={(e) => setPwd(e.target.value)}
+                  id="password" 
+                  name="password" 
+                  type="password" 
+                  placeholder="Enter your password" 
+                  pattern="^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{7,}$" 
+                  title="Minimum of 7 characters. Should have at least one special character and one number and one UpperCase Letter." autocomplete="off" 
+                  required
+                />
+              </div>
+              <div class="input-box">
+                <span class="details">Confirm Password</span>
+                <input 
+                  value={pwdMatch}
+                  onChange={(e) => setPwdMatch(e.target.value)}
+                  id="confirm-password" 
+                  type="password" 
+                  placeholder="Confirm your password" 
+                  pattern="^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{7,}$" 
+                  title="Minimum of 7 characters. Should have at least one special character and one number and one UpperCase Letter." autocomplete="off" 
+                  required
+                />
+              </div>
             </div>
-            <div class="input-box">
-              <span class="details">Email</span>
-              <input 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                id="email" 
-                name="email" 
-                type="email" 
-                placeholder="Enter your email" 
-                autocomplete="off" 
-                required
-              />
+            <p class="password-message">{matchMsg}</p>
+            <div class="button">
+              <input type="submit" value="Register" name="register_btn"/>
             </div>
-            <div class="input-box">
-              <span class="details">Password</span>
-              <input 
-                value={pwd}
-                onChange={(e) => setPwd(e.target.value)}
-                id="password" 
-                name="password" 
-                type="password" 
-                placeholder="Enter your password" 
-                pattern="^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{7,}$" 
-                title="Minimum of 7 characters. Should have at least one special character and one number and one UpperCase Letter." autocomplete="off" 
-                required
-              />
-            </div>
-            <div class="input-box">
-              <span class="details">Confirm Password</span>
-              <input 
-                value={pwdMatch}
-                onChange={(e) => setPwdMatch(e.target.value)}
-                id="confirm-password" 
-                type="password" 
-                placeholder="Confirm your password" 
-                pattern="^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{7,}$" 
-                title="Minimum of 7 characters. Should have at least one special character and one number and one UpperCase Letter." autocomplete="off" 
-                required
-              />
-            </div>
-          </div>
-          <p class="password-message">{matchMsg}</p>
-          <div class="button">
-            <input type="submit" value="Register" name="register_btn"/>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   )

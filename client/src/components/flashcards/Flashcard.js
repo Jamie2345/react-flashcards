@@ -11,7 +11,7 @@ export default function Flashcard ( {flashcard, active, slide, z} ) {
   else {
     cardClass = active ? 'active' : 'hidden'
   }
-
+  
   return (
     <div 
       className={`card ${cardClass} ${flip ? 'flip' : ''}`} 

@@ -12,7 +12,7 @@ export default function LoginPage() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/flashcards";
+  const from = location.state?.from?.pathname || "/decks";
 
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
@@ -58,40 +58,42 @@ export default function LoginPage() {
   }
 
   return (
-    <div class="container">
-      <div class="title">Login</div>
-      <div class="content">
-        <form class="login-form" id="login-form" method="POST" action="/api/login" onSubmit={handleSubmit}>
-          <div class="login-details user-details">
-            <div class="login-input input-box">
-              <span class="details">Username or Email</span>
-              <input 
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
-                id="identifier" 
-                name="identifier" 
-                type="text" 
-                placeholder="Enter your username or email" 
-                required
-              />
+    <div class="main-auth-container">
+      <div class="container">
+        <div class="title">Login</div>
+        <div class="content">
+          <form class="login-form" id="login-form" method="POST" action="/api/login" onSubmit={handleSubmit}>
+            <div class="login-details user-details">
+              <div class="login-input input-box">
+                <span class="details">Username or Email</span>
+                <input 
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  id="identifier" 
+                  name="identifier" 
+                  type="text" 
+                  placeholder="Enter your username or email" 
+                  required
+                />
+              </div>
+              <div class="login-input input-box">
+                <span class="details">Password</span>
+                <input 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  id="password" 
+                  type="password" 
+                  placeholder="Enter your password" 
+                  name="password" 
+                  required
+                />
+              </div>
             </div>
-            <div class="login-input input-box">
-              <span class="details">Password</span>
-              <input 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                id="password" 
-                type="password" 
-                placeholder="Enter your password" 
-                name="password" 
-                required
-              />
+            <div class="button">
+              <input type="submit" name="login_btn" value="Login"/>
             </div>
-          </div>
-          <div class="button">
-            <input type="submit" name="login_btn" value="Login"/>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   )
